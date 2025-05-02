@@ -177,7 +177,7 @@ const Toggle = ({lbl,v,set}:{lbl:string;v:boolean;set:(b:boolean)=>void}) => (
 /* ═════════ movement drill (unchanged visuals) ═════════ */
 
 type Dir='center'|'left'|'right'|'forward'|'back';
-const rot:Record<Dir,number>={center:0,left:-45,right:45,forward:0,back:180};
+const rot:Record<Dir,number>={center:0,left:-90,right:90,forward:0,back:180};
 
 function MovementDrill({ cfg,onExit }:{ cfg:Config; onExit:()=>void }) {
   const { rounds,roundSeconds,difficulty,showAssists,unpredictable,attackWindows }=cfg;
@@ -191,8 +191,8 @@ function MovementDrill({ cfg,onExit }:{ cfg:Config; onExit:()=>void }) {
   const [flash,setFlash]=useState<'none'|'atk'|'def'>('none');
   const [hold,setHold]=useState(0);
 
-  const [bellStart]=useSound('/sounds/bell-start.mp3',{volume:0.5});
-  const [bellEnd]  =useSound('/sounds/bell-end.mp3'  ,{volume:0.5});
+  const [bellStart]=useSound('/sounds/bell-start.mp3',{volume:0.9});
+  const [bellEnd]  =useSound('/sounds/bell-end.mp3'  ,{volume:0.9});
 
   const hop=900-(difficulty-1)*112.5; const half=hop/2;
   const acc=useRef(0);
@@ -204,7 +204,7 @@ function MovementDrill({ cfg,onExit }:{ cfg:Config; onExit:()=>void }) {
   },true);
 
   useEffect(()=>{
-    const h=document.documentElement;
+    const h=document.body;
     h.classList.toggle('flash-red',flash==='atk');
     h.classList.toggle('flash-green',flash==='def');
     h.classList.toggle('flash-blue',hold>0);
@@ -229,7 +229,7 @@ function MovementDrill({ cfg,onExit }:{ cfg:Config; onExit:()=>void }) {
 
   useEffect(()=>{
     if(!showAssists||(dir!=='forward'&&dir!=='back')) return;
-    if(Math.random()<0.08*difficulty) setFlash(dir==='forward'?'atk':'def');
+    if(Math.random()<0.07*difficulty) setFlash(dir==='forward'?'atk':'def');
   },[dir,showAssists,difficulty]);
 
   useEffect(()=>{
@@ -272,7 +272,7 @@ function GuardDrill({ cfg,onExit }:{ cfg:Config; onExit:()=>void }) {
   const [bellStart] = useSound('/sounds/bell-start.mp3',{volume:0.5});
   const [bellEnd]   = useSound('/sounds/bell-end.mp3'  ,{volume:0.5});
 
-  const hop=900-(difficulty-1)*112.5;
+  const hop=900-(difficulty-1)*117.5;
   const half=hop/2;
   const acc=useRef(0);
   useRAFInterval(dt=>{
