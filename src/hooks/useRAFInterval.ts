@@ -4,7 +4,7 @@ export const useRAFInterval = (cb: (dt: number) => void, running: boolean) => {
     const cbRef = useRef(cb);
     cbRef.current = cb;
 
-    const frame = useRef<number>();
+    const frame = useRef<number | null>(null);
 
     useEffect(() => {
         if (!running) return;
